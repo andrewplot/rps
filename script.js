@@ -1,65 +1,76 @@
-// Step 1: sanity check
-console.log("Hello World");
+const humanScoreEl    = document.getElementById('human-score');
+const computerScoreEl = document.getElementById('computer-score');
+const roundNumEl      = document.getElementById('round-num');
+const resultEl        = document.getElementById('result');
+const buttons         = document.querySelectorAll('.choice-btn');
+const restartBtn      = document.getElementById('restart');
 
-// Step 2: computer choice
+let humanScore = 0;
+let computerScore = 0;
+let round = 0;
+
 function getComputerChoice() {
-  const rand = Math.random();
-  if (rand < 1/3) return "rock";
-  if (rand < 2/3) return "paper";
-  return "scissors";
+  const choices = ['rock', 'paper', 'scissors'];
+  return choices[Math.floor(Math.random() * choices.length)];
 }
 
-// Step 3: human choice
-function getHumanChoice() {
-  const choice = prompt("Enter rock, paper or scissors:");
-  return choice;
-}
+function playRound(humanChoice) {
+  const computerChoice = getComputerChoice();
+  round++;
+  roundNumEl.textContent = round;
 
-// Step 6: play the full 5-round game
-function playGame() {
-  let humanScore = 0;
-  let computerScore = 0;
+  if (humanChoice === computerChoice) {
+    resultEl.textContent = `Tie! You both chose ${humanChoice}.`;
+  } else {
+    const wins = {
+      rock: ['scissors'],
+      paper: ['rock'],
+      scissors: ['paper']
+    };
 
-  // Step 5: single-round logic (now inside playGame so it sees the scores)
-  function playRound(humanChoice, computerChoice) {
-    const h = humanChoice.toLowerCase();
-    const c = computerChoice;
-
-    if (h === c) {
-      console.log(`It's a tie! You both chose ${h}.`);
-      return;
-    }
-
-    const win =
-      (h === "rock"     && c === "scissors") ||
-      (h === "paper"    && c === "rock")     ||
-      (h === "scissors" && c === "paper");
+    const win = wins[humanChoice].includes(computerChoice);
 
     if (win) {
       humanScore++;
-      console.log(`You win! ${h.charAt(0).toUpperCase() + h.slice(1)} beats ${c}.`);
+      humanScoreEl.textContent = humanScore;
+      resultEl.textContent = `You win! ${humanChoice} beats ${computerChoice}.`;
     } else {
       computerScore++;
-      console.log(`You lose! ${c.charAt(0).toUpperCase() + c.slice(1)} beats ${h}.`);
+      computerScoreEl.textContent = computerScore;
+      resultEl.textContent = `You lose! ${computerChoice} beats ${humanChoice}.`;
     }
   }
 
-  // play 5 rounds
-  for (let i = 1; i <= 5; i++) {
-    const humanSelection   = getHumanChoice();
-    const computerSelection = getComputerChoice();
-    playRound(humanSelection, computerSelection);
-    console.log(`Score → You: ${humanScore}, Computer: ${computerScore}\n`);
-  }
-
-  // final result
-  if (humanScore > computerScore) {
-    console.log(`🎉 You won the game ${humanScore} to ${computerScore}!`);
-  } else if (computerScore > humanScore) {
-    console.log(`😞 You lost the game ${computerScore} to ${humanScore}.`);
-  } else {
-    console.log(`🤝 The game is a tie at ${humanScore} each.`);
-  }
+  if (round === 5) endGame();
 }
 
-playGame();
+function endGame() {
+  buttons.forEach(b => b.disabled = true);
+  if (humanScore > computerScore) {
+    resultEl.textContent = `🎉 You won ${humanScore} to ${computerScore}!`;
+  } else if (computerScore > humanScore) {
+    resultEl.textContent = `😞 You lost ${computerScore} to ${humanScore}.`;
+  } else {
+    resultEl.textContent = `🤝 It's a tie at ${humanScore} each.`;
+  }
+  restartBtn.hidden = false;
+}
+
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const choice = btn.dataset.choice;
+    playRound(choice);
+  });
+});
+
+restartBtn.addEventListener('click', () => {
+  humanScore = 0;
+  computerScore = 0;
+  round = 0;
+  humanScoreEl.textContent = '0';
+  computerScoreEl.textContent = '0';
+  roundNumEl.textContent = '0';
+  resultEl.textContent = 'Make your move!';
+  buttons.forEach(b => b.disabled = false);
+  restartBtn.hidden = true;
+});

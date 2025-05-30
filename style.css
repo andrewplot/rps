@@ -1,0 +1,92 @@
+/* Layout & Reset */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #4facfe, #00f2fe);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Game box */
+.game-container {
+  background: white;
+  padding: 2rem;
+  margin-top: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 320px;
+}
+
+/* Title */
+h1 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Scoreboard */
+.scoreboard {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Buttons */
+.choices {
+  margin-bottom: 1rem;
+}
+
+.choice-btn {
+  background: #4facfe;
+  border: none;
+  color: white;
+  padding: 0.6rem 1rem;
+  margin: 0.2rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+
+.choice-btn:hover {
+  background: #00c6ff;
+}
+
+/* Result text */
+.result {
+  min-height: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Restart button */
+.restart {
+  background: #00f2fe;
+  border: none;
+  color: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.restart:hover {
+  background: #4facfe;
+  color: white;
+}
+
+/* Footer */
+footer {
+  margin-top: auto;
+  padding: 1rem;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #777;
+}
